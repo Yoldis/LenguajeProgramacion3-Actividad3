@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "Lista de Estudiantes";
+}
+@model IEnumerable<Actividad3LenProg3.Models.EstudianteModel>
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre Completo</th>
+            <th>Matrícula</th>
+            <th>Carrera</th>
+            <th>Correo Electrónico</th>
+            <th>Teléfono</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Género</th>
+            <th>Turno</th>
+            <th>Tipo Ingreso</th>
+            <th>Esta Becado</th>
+            <th>Porcentaje Beca</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var estudiante in Model)
+        {
+            <tr>
+                <td>@estudiante.NombreCompleto</td>
+                <td>@estudiante.Matricula</td>
+                <td>@estudiante.Carrera</td>
+                <td>@estudiante.CorreoElectronico</td>
+                <td>@estudiante.Telefono</td>
+                <td>@estudiante.FechaNacimiento.ToString("dd/MM/yyyy")</td>
+                <td>@estudiante.Genero</td>
+                <td>@estudiante.Turno</td>
+                <td>@estudiante.TipoIngreso</td>
+                <td>@estudiante.EstaBecado</td>
+                <td>@estudiante.PorcentajeBeca</td>
+                <td>@estudiante.TerminoCondicione</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@estudiante.Matricula" class="btn btn-primary me-2">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@estudiante.Matricula" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-success" asp-controller="Estudiantes" asp-action="Index">Registrar</a>
