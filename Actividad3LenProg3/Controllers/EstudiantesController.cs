@@ -1,5 +1,7 @@
 ﻿using Actividad3LenProg3.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
+
 
 namespace Actividad3LenProg3.Controllers
 {
@@ -17,10 +19,10 @@ namespace Actividad3LenProg3.Controllers
                 TipoIngreso = "Regular", TerminoCondicione = true
                }
         };
-        
+
         public IActionResult Index()
         {
-            return View("Formulario");
+            return View("Crear");
         }
 
         [HttpPost]
@@ -29,28 +31,58 @@ namespace Actividad3LenProg3.Controllers
             bool existEstudiante = estudiantes.Any(e => e.Matricula == estudiante.Matricula);
             if (!ModelState.IsValid || existEstudiante)
             {
-                return View("formulario", estudiante);
+                return View("Crear", estudiante);
             }
             estudiantes.Add(estudiante);
             return View("Lista", estudiantes);
         }
 
+        [HttpGet]
         public IActionResult Lista()
         {
             return View(estudiantes);
         }
 
-        public IActionResult Editar()
+        [HttpGet]
+        public IActionResult Editar(string matricula)
         {
-            return View();
+            var estudianteEncontrado = estudiantes.FirstOrDefault(e => e.Matricula == matricula);
+            if (estudianteEncontrado == null)
+            {
+                ViewBag.Mensaje = "Estudiante no encontrado.";
+                //return View("Lista", estudiantes);
+            }
+
+            return View("Editar", estudianteEncontrado);
         }
-        public IActionResult BuscarMatricula()
+
+
+        [HttpPost]
+        public IActionResult Editar(EstudianteModel estudiante)
         {
-            return View();
+            var index = estudiantes.FindIndex(e => e.Matricula == estudiante.Matricula);
+            if (index != -1)
+            {
+                estudiantes[index] = estudiante;
+                return View("Lista", estudiantes);
+            }
+            
+            ViewBag.Mensaje = "Estudiante no encontrado.";
+            return View("Lista", estudiantes); 
         }
-        public IActionResult Eliminar()
+
+        [HttpGet]
+        public IActionResult Eliminar(string matricula)
         {
-            return View();
+            var estudiante = estudiantes.FirstOrDefault(e => e.Matricula == matricula);
+            if (estudiante == null)
+            {
+                return NotFound();
+            }
+
+            estudiantes.Remove(estudiante);
+
+            return View("Lista", estudiantes);
         }
     }
 }

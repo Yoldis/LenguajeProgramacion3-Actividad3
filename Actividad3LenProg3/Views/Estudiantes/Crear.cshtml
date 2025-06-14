@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Formulario de Estudiante";
+    ViewData["Title"] = "Crear Estudiante";
 }
 @model EstudianteModel
 
@@ -103,8 +103,11 @@
         </select>
         <span asp-validation-for="TerminoCondicione" class="text-danger"></span>
     </div>
-
-    <button type="submit" class="btn btn-primary my-2">Guardar</button>
+       
+    <div class="d-flex align-items-center gap-2">
+        <button type="submit" class="btn btn-primary my-2">Guardar</button>
+        <a type="button" asp-action="Lista" class="btn btn-secondary my-2">Atras</a>
+    </div>
 </form>
 
 @section Scripts {
